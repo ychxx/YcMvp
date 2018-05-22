@@ -1,11 +1,17 @@
 package com.yc.yclibrary.net;
 
-import com.hckj.steelbarinspection.exception.ApiException;
-import com.hckj.steelbarinspection.exception.ErrorType;
-import com.hckj.steelbarinspection.exception.ExceptionEngine;
-import com.hckj.steelbarinspection.utils.NetworkUtil;
-import com.hckj.steelbarinspection.utils.ToastUtil;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.orhanobut.logger.Logger;
+import com.yc.yclibrary.EasyCode;
+import com.yc.yclibrary.base.EcAppCompatActivity;
+import com.yc.yclibrary.exception.ApiException;
+import com.yc.yclibrary.exception.ErrorType;
+import com.yc.yclibrary.exception.ExceptionEngine;
+import com.yc.yclibrary.utils.ActivityUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
@@ -23,26 +29,38 @@ public abstract class BaseObserver<T> implements Observer<T>, HttpRequest<T> {
     @Override
     public void onSubscribe(@NonNull Disposable d) {
         disposable = d;
-        if (!NetworkUtil.isNetworkAvailable()) {
+        if (!isNetworkAvailable()) {
             Logger.e("网络不可用");
             disposable.dispose();
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) EasyCode.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (null == manager)
+            return false;
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        return null != info && info.isAvailable();
+    }
+
     @Override
     public void onNext(@NonNull T response) {
+        EcAppCompatActivity currentActivity = ActivityUtils.INSTANCE.getCurrentActivity();
         //防止闪退问题
         try {
             onSuccess(response);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            ToastUtil.show("网络异常！错误码:" + ErrorType.DATE_NULL);
+            if (currentActivity != null)
+                currentActivity.showToast("网络异常！错误码:" + ErrorType.DATE_NULL);
         } catch (ApiException e) {
             e.printStackTrace();
-            ToastUtil.show(e.getMessage());
+            if (currentActivity != null)
+                currentActivity.showToast(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtil.show("网络异常！错误码:" + ErrorType.UN_KNOWN_ERROR);
+            if (currentActivity != null)
+                currentActivity.showToast("网络异常！错误码:" + ErrorType.UN_KNOWN_ERROR);
         }
     }
 

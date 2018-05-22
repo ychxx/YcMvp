@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -24,4 +28,16 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation project(':yclibrary')
+    /* 一个适用于ListView/GridView/RecyclerView的Adapter库,简化大量重复代码,支持多种布局,可自定义图片加载的实现*/
+    implementation 'com.classic.adapter:commonadapter:2.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    /* 图片加载*/
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    /* rx动态申请权限*/
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    /* 下载 */
+    implementation 'org.xutils:xutils:3.5.0'
+    /* view依赖注入 */
+    implementation 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }

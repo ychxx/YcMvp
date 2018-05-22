@@ -63,6 +63,11 @@ public abstract class EcMvpAppCompatActivity<P extends BasePresenter> extends Ec
         }
     }
 
+    @Override
+    public void showMsg(String msg) {
+        showToast(msg);
+    }
+
     /**
      * 用于绑定bindLifecycle
      */

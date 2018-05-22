@@ -1,8 +1,7 @@
 package com.yc.yclibrary.net;
 
 
-
-import com.google.gson.Gson;
+import com.yc.yclibrary.EasyCode;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
- *  retrofit工具类
+ * retrofit工具类
  */
 
 public enum RetrofitUtils {
@@ -31,18 +30,24 @@ public enum RetrofitUtils {
                 .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                 .build();
         return new Retrofit.Builder()
-                .baseUrl(UrlHelper.BASE_URL)
+                .baseUrl(EasyCode.mBaseUrl)
                 .client(client)
                 //增加返回值为String的支持
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public ApiService getApiService() {
-        return getRetrofit().create(ApiService.class);
+    public <T> T getApiService(final Class<T> service) {
+        return getRetrofit().create(service);
     }
+//    public Class<?> getApiService() {
+//        return getRetrofit().create(apiService);
+//    }
+//    private Class apiService = null;
+//
+//    public void setServiceClass(Class serviceClass) {
+//        apiService = serviceClass;
+//    }
 }

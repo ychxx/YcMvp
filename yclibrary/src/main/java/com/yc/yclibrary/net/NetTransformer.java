@@ -5,7 +5,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2018-01-19.
+ *
  */
 
 public class NetTransformer {

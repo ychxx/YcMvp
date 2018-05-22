@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
+import com.yc.yclibrary.EasyCode;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -39,7 +40,7 @@ public class LogInterceptor implements Interceptor {
         }
         Logger.e("请求方式:" + request.method() + "\n网络请求:" + getFullRequest(request));
         Response response = chain.proceed(request);
-        Logger.e("请求方式:"+request.method()+"\n网络请求:"+"返回数据:" + getFullResponse(response));
+        Logger.e("请求方式:" + request.method() + "\n网络请求:" + "返回数据:" + getFullResponse(response));
         return response;
     }
 
@@ -53,11 +54,11 @@ public class LogInterceptor implements Interceptor {
         //获取request的创建者builder
         Request.Builder builder = request.newBuilder();
         //从request中获取headers，通过给定的键url_name
-        List<String> headerValues = request.headers(UrlHelper.OTHER_BASE_URL);
+        List<String> headerValues = request.headers(EasyCode.OTHER_BASE_URL);
         if (headerValues != null && headerValues.size() > 0) {
             //将配置的header删除，因为header仅用作app和okhttp之间使用
-            builder.removeHeader(UrlHelper.OTHER_BASE_URL);
-            return UrlHelper.baseUrls.get(headerValues.get(0));
+            builder.removeHeader(EasyCode.OTHER_BASE_URL);
+            return headerValues.get(0);
         } else {
             return null;
         }
@@ -106,11 +107,13 @@ public class LogInterceptor implements Interceptor {
             Buffer buffer = new Buffer();
             requestBody.writeTo(buffer);
 
-            Charset charset = UTF8;
+            Charset charset = null;
             MediaType contentType = requestBody.contentType();
             if (contentType != null) {
                 charset = contentType.charset(UTF8);
             }
+            if (charset == null)
+                charset = UTF8;
             body = buffer.readString(charset);
             return request.url() + "&" + body;
         } else {
