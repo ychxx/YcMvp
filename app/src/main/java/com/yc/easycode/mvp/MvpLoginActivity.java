@@ -8,7 +8,7 @@ import com.yc.easycode.R;
 import com.yc.easycode.bean.json.LoginJson;
 import com.yc.easycode.mvp.contact.MvpLoginC;
 import com.yc.easycode.mvp.presenter.MvpLoginP;
-import com.yc.yclibrary.base.EcMvpAppCompatActivity;
+import com.yc.yclibrary.base.YcMvpAppCompatActivity;
 import com.yc.yclibrary.exception.ApiException;
 
 import butterknife.BindView;
@@ -18,7 +18,7 @@ import butterknife.OnClick;
  * mvp登录页面
  */
 
-public class MvpLoginActivity extends EcMvpAppCompatActivity<MvpLoginP> implements MvpLoginC.V {
+public class MvpLoginActivity extends YcMvpAppCompatActivity<MvpLoginP> implements MvpLoginC.V {
     @BindView(R.id.tvLoginResult)
     TextView tvLoginResult;
 

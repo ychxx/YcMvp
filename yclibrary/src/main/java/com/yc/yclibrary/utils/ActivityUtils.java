@@ -1,10 +1,9 @@
 package com.yc.yclibrary.utils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import com.yc.yclibrary.base.EcAppCompatActivity;
+import com.yc.yclibrary.base.YcAppCompatActivity;
 
 import java.util.Stack;
 
@@ -17,12 +16,12 @@ public enum ActivityUtils {
     ActivityUtils() {
         mActivityStack = new Stack<>();
     }
-    private Stack<EcAppCompatActivity> mActivityStack;
+    private Stack<YcAppCompatActivity> mActivityStack;
 
     /**
      * 添加一个Activity到堆栈中
      */
-    public void addActivity(EcAppCompatActivity activity) {
+    public void addActivity(YcAppCompatActivity activity) {
         if (mActivityStack == null) {
             mActivityStack = new Stack<>();
         }
@@ -31,7 +30,7 @@ public enum ActivityUtils {
     /**
      * 获取到当前显示Activity（堆栈中最后一个传入的activity）
      */
-    public EcAppCompatActivity getCurrentActivity() {
+    public YcAppCompatActivity getCurrentActivity() {
         if (mActivityStack != null)
             return mActivityStack.lastElement();
         else
@@ -41,7 +40,7 @@ public enum ActivityUtils {
     /**
      * 从堆栈中移除指定的Activity
      */
-    public void finishActivity(EcAppCompatActivity activity) {
+    public void finishActivity(YcAppCompatActivity activity) {
         if (activity != null) {
             mActivityStack.remove(activity);
             activity.finish();
@@ -52,7 +51,7 @@ public enum ActivityUtils {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class<?> cls) {
-        for (EcAppCompatActivity activity : mActivityStack) {
+        for (YcAppCompatActivity activity : mActivityStack) {
             if (activity.getClass().equals(cls)) {
                 finishActivity(activity);
                 break;
@@ -65,7 +64,7 @@ public enum ActivityUtils {
      */
     public void finishOthersActivity(Class<?> cls) {
         if (mActivityStack != null)
-            for (EcAppCompatActivity activity : mActivityStack) {
+            for (YcAppCompatActivity activity : mActivityStack) {
                 if (!activity.getClass().equals(cls)) {
                     activity.finish();
                 }
@@ -75,9 +74,9 @@ public enum ActivityUtils {
     /**
      * 结束除当前传入以外所有Activity
      */
-    public void finishOthersActivity(EcAppCompatActivity activity) {
+    public void finishOthersActivity(YcAppCompatActivity activity) {
         if (mActivityStack != null)
-            for (EcAppCompatActivity itemActivity : mActivityStack) {
+            for (YcAppCompatActivity itemActivity : mActivityStack) {
                 if (activity != itemActivity) {
                     itemActivity.finish();
                 }
@@ -89,7 +88,7 @@ public enum ActivityUtils {
      */
     public void finishAllActivity() {
         if (mActivityStack != null) {
-            for (EcAppCompatActivity activity : mActivityStack) {
+            for (YcAppCompatActivity activity : mActivityStack) {
                 activity.finish();
             }
             mActivityStack.clear();

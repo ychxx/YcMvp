@@ -1,7 +1,9 @@
 package com.yc.yclibrary.base;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -14,7 +16,7 @@ import butterknife.Unbinder;
  *
  */
 
-public abstract class EcAppCompatActivity extends RxAppCompatActivity {
+public abstract class YcAppCompatActivity extends RxAppCompatActivity {
     private Unbinder unbinder;
 
     /**
@@ -51,7 +53,7 @@ public abstract class EcAppCompatActivity extends RxAppCompatActivity {
         ActivityUtils.INSTANCE.finishActivity(this);
     }
 
-    public EcAppCompatActivity getActivity() {
+    public YcAppCompatActivity getActivity() {
         return this;
     }
 
@@ -61,6 +63,22 @@ public abstract class EcAppCompatActivity extends RxAppCompatActivity {
      * @param msg 内容
      */
     public void showToast(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Looper.prepare();
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            Looper.loop();
+        }
+    }
+
+    public void showToast(@StringRes int resId) {
+        try {
+            Toast.makeText(getActivity(), getString(resId), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Looper.prepare();
+            Toast.makeText(getActivity(), getString(resId), Toast.LENGTH_SHORT).show();
+            Looper.loop();
+        }
     }
 }

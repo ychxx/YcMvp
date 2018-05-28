@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 
 import com.orhanobut.logger.Logger;
 import com.yc.yclibrary.EasyCode;
-import com.yc.yclibrary.base.EcAppCompatActivity;
+import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.yclibrary.exception.ApiException;
 import com.yc.yclibrary.exception.ErrorType;
 import com.yc.yclibrary.exception.ExceptionEngine;
@@ -45,7 +45,7 @@ public abstract class BaseObserver<T> implements Observer<T>, HttpRequest<T> {
 
     @Override
     public void onNext(@NonNull T response) {
-        EcAppCompatActivity currentActivity = ActivityUtils.INSTANCE.getCurrentActivity();
+        YcAppCompatActivity currentActivity = ActivityUtils.INSTANCE.getCurrentActivity();
         //防止闪退问题
         try {
             onSuccess(response);

@@ -11,7 +11,7 @@ import com.yc.yclibrary.mvp.IView;
  *
  */
 
-public abstract class EcMvpAppCompatActivity<P extends BasePresenter> extends EcAppCompatActivity implements IView {
+public abstract class YcMvpAppCompatActivity<P extends BasePresenter> extends YcAppCompatActivity implements IView {
     protected P mPresenter;
     private ProgressDialog mProgressDialog = null;
 
