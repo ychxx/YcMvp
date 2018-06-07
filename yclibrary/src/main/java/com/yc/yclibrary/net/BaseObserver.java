@@ -31,6 +31,7 @@ public abstract class BaseObserver<T> implements Observer<T>, HttpRequest<T> {
         disposable = d;
         if (!isNetworkAvailable()) {
             Logger.e("网络不可用");
+            onFail(new ApiException("网络不可用", ErrorType.NETWORK_ERROR));
             disposable.dispose();
         }
     }
