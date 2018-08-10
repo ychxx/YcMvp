@@ -14,11 +14,11 @@ import com.yc.yclibrary.net.RetrofitUtils;
  * 初始化
  */
 
-public class EasyCode {
+public class YcInit {
     private static Application mApplication;
     public static final String OTHER_BASE_URL = "other_base_url";//用于切换url的标示
     public static String mBaseUrl = "";
-    private static final String TAG = "EasyCode";
+    private static final String TAG = "YcInit";
 
     public static void init(Application application, String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {
@@ -31,7 +31,7 @@ public class EasyCode {
             //logger日志的初始化
             Logger.addLogAdapter(new AndroidLogAdapter());
         } else {
-            Log.e(TAG, "EasyCode.init()传入的application为空");
+            Log.e(TAG, "YcInit.init()传入的application为空");
         }
     }
 

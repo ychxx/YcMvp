@@ -1,7 +1,7 @@
 package com.yc.yclibrary.net;
 
 
-import com.yc.yclibrary.EasyCode;
+import com.yc.yclibrary.YcInit;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +30,7 @@ public enum RetrofitUtils {
                 .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                 .build();
         return new Retrofit.Builder()
-                .baseUrl(EasyCode.mBaseUrl)
+                .baseUrl(YcInit.mBaseUrl)
                 .client(client)
                 //增加返回值为String的支持
                 .addConverterFactory(ScalarsConverterFactory.create())

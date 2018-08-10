@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.orhanobut.logger.Logger;
-import com.yc.yclibrary.EasyCode;
+import com.yc.yclibrary.YcInit;
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import com.yc.yclibrary.exception.ApiException;
 import com.yc.yclibrary.exception.ErrorType;
@@ -37,7 +37,7 @@ public abstract class BaseObserver<T> implements Observer<T>, HttpRequest<T> {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) EasyCode.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) YcInit.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (null == manager)
             return false;
         NetworkInfo info = manager.getActiveNetworkInfo();

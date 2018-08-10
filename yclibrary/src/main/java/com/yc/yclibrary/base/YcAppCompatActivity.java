@@ -39,11 +39,12 @@ public abstract class YcAppCompatActivity extends RxAppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityUtils.INSTANCE.addActivity(this);
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);
         initView(savedInstanceState);
         initData();
-        ActivityUtils.INSTANCE.addActivity(this);
+
     }
 
     @Override
