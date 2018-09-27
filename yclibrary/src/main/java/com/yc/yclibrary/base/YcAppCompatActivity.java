@@ -46,7 +46,6 @@ public abstract class YcAppCompatActivity extends RxAppCompatActivity {
         initData();
 
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -2,8 +2,14 @@ package com.yc.yclibrary.base;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle2.components.RxActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.yc.yclibrary.bean.BindEvent;
 import com.yc.yclibrary.mvp.BasePresenter;
 import com.yc.yclibrary.mvp.IView;
 
@@ -76,4 +82,27 @@ public abstract class YcMvpAppCompatActivity<P extends BasePresenter> extends Yc
         return super.bindToLifecycle();
     }
 
+    @Override
+    public LifecycleTransformer bindLifecycle(@BindEvent int event) {
+        switch (event) {
+            case BindEvent.CREATE:
+                return super.bindUntilEvent(ActivityEvent.CREATE);
+            case BindEvent.START:
+                return super.bindUntilEvent(ActivityEvent.START);
+            case BindEvent.RESUME:
+                return super.bindUntilEvent(ActivityEvent.RESUME);
+            case BindEvent.PAUSE:
+                return super.bindUntilEvent(ActivityEvent.PAUSE);
+            case BindEvent.STOP:
+                return super.bindUntilEvent(ActivityEvent.STOP);
+            case BindEvent.DESTROY:
+                return super.bindUntilEvent(ActivityEvent.DESTROY);
+            case BindEvent.ATTACH:
+            case BindEvent.CREATE_VIEW:
+            case BindEvent.DESTROY_VIEW:
+            case BindEvent.DETACH:
+            default:
+                return super.bindToLifecycle();
+        }
+    }
 }

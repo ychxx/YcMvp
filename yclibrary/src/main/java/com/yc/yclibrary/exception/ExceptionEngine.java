@@ -30,7 +30,9 @@ public class ExceptionEngine {
             return ex;
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
-                || e instanceof ParseException || e instanceof MalformedJsonException) {  //解析数据错误
+                || e instanceof ParseException
+                || e instanceof MalformedJsonException
+                || e instanceof IllegalStateException) {  //解析数据错误
             ex = new ApiException(e, ErrorType.JSON_ERROR);
             ex.setMessage("解析错误");
             return ex;

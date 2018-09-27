@@ -1,6 +1,10 @@
 package com.yc.yclibrary.mvp;
 
+import android.support.annotation.NonNull;
+
 import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.yc.yclibrary.bean.BindEvent;
 
 /**
  * mvp之v
@@ -22,4 +26,5 @@ public interface IView {
     void showMsg(String msg);
 
     LifecycleTransformer bindLifecycle();
+    LifecycleTransformer bindLifecycle(@BindEvent int event);
 }

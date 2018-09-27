@@ -59,15 +59,16 @@ public abstract class YcLazyFragment extends RxFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        View parentView = inflater.inflate(getLayoutResId(), container, false);
+        View view = inflater.inflate(getLayoutResId(), container, false);
         mActivity = getSupportActivity();
-        return parentView;
+        mUnbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mUnbinder = ButterKnife.bind(this, view);
+
         initView();
         mIsInitView = true;
         lazyLoad();
