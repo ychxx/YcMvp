@@ -21,7 +21,7 @@ allprojects {
 
 dependencies {
 	
-	implementation 'com.github.ychxx:YcMvp:1.0.1'
+	implementation 'com.github.ychxx:YcMvp:1.1'
         
 	/* view依赖注入 */
         
