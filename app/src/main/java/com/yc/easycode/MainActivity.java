@@ -1,18 +1,28 @@
 package com.yc.easycode;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.yc.easycode.mvp.MvpLoginActivity;
-import com.yc.yclibrary.Test;
+import com.yc.yclibrary.base.YcAppCompatActivity;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends YcAppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        startActivity(new Intent(MainActivity.this, MvpLoginActivity.class));
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+    }
+
+    @OnClick(R.id.mainBtn)
+    public void onViewClicked() {
+        MvpLoginActivity.newInstance(getActivity());
     }
 }

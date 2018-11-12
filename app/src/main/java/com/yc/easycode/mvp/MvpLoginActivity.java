@@ -1,5 +1,7 @@
 package com.yc.easycode.mvp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +23,9 @@ import butterknife.OnClick;
 public class MvpLoginActivity extends YcMvpAppCompatActivity<MvpLoginP> implements MvpLoginC.V {
     @BindView(R.id.tvLoginResult)
     TextView tvLoginResult;
-
+    public static void newInstance(Activity activity){
+        activity.startActivity(new Intent(activity,MvpLoginActivity.class));
+    }
     @Override
     protected MvpLoginP loadPresenter() {
         return new MvpLoginP();
