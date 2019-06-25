@@ -1,9 +1,10 @@
-package com.yc.easycode;
+package com.yc.easycode.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.yc.easycode.R;
 import com.yc.easycode.mvp.MvpLoginActivity;
 import com.yc.yclibrary.base.YcAppCompatActivity;
 import butterknife.ButterKnife;

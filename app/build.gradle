@@ -28,7 +28,6 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation project(':yclibrary')
-
     /* 一个适用于ListView/GridView/RecyclerView的Adapter库,简化大量重复代码,支持多种布局,可自定义图片加载的实现*/
     implementation 'com.classic.adapter:commonadapter:2.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'

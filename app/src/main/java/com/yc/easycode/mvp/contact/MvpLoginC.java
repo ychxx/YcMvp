@@ -9,6 +9,8 @@ import com.yc.yclibrary.mvp.IView;
  */
 
 public class MvpLoginC {
+
+
     public interface V extends IView {
         /**
          * 登录成功

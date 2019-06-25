@@ -17,17 +17,20 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public enum RetrofitUtils {
     Instance();
-    private static final int CONNECT_TIME_OUT = 180;//连接超时时长x秒
-    private static final int READ_TIME_OUT = 180;//读数据超时时长x秒
-    private static final int WRITE_TIME_OUT = 180;//写数据接超时时长x秒
 
-    private Retrofit getRetrofit() {
+    private Retrofit mRetrofit;
+
+    private RetrofitUtils() {
+        mRetrofit = createRetrofit();
+    }
+
+    private Retrofit createRetrofit() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor())//使用interceptors会导致header中的cookie等信息不会打印出来
 //                .addNetworkInterceptor(new LogInterceptor())//添加日志拦截器，打印日志
-                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
-                .writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS)
-                .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
+                .connectTimeout(YcInit.getConnectTime(), TimeUnit.SECONDS)
+                .writeTimeout(YcInit.getWriteTime(), TimeUnit.SECONDS)
+                .readTimeout(YcInit.getReadTime(), TimeUnit.SECONDS)
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(YcInit.mBaseUrl)
@@ -37,6 +40,14 @@ public enum RetrofitUtils {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+    }
+
+    private Retrofit getRetrofit() {
+        if (mRetrofit == null) {
+            mRetrofit = createRetrofit();
+        }
+        return mRetrofit;
     }
 
     public <T> T getApiService(final Class<T> service) {

@@ -46,6 +46,10 @@ public abstract class BaseObserver<T> implements Observer<T>, HttpRequest<T> {
 
     @Override
     public void onNext(@NonNull T response) {
+        if (YcInit.isIsDebug()) {//调试模式下不捕获异常
+            onSuccess(response);
+            return;
+        }
         YcAppCompatActivity currentActivity = ActivityUtils.INSTANCE.getCurrentActivity();
         //防止闪退问题
         try {

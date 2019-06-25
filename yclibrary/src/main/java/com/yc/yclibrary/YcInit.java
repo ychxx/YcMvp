@@ -16,9 +16,14 @@ import com.yc.yclibrary.net.RetrofitUtils;
 
 public class YcInit {
     private static Application mApplication;
+    private static final String TAG = "YcInit";
+
     public static final String OTHER_BASE_URL = "other_base_url";//用于切换url的标示
     public static String mBaseUrl = "";
-    private static final String TAG = "YcInit";
+    private static boolean mIsDebug = false;//是否是调试模式
+    private static int mConnectTime = 180;//连接超时时长x秒
+    private static int mReadTime = 180;//读数据超时时长x秒
+    private static int mWriteTime = 180;//写数据接超时时长x秒
 
     public static void init(Application application, String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {
@@ -48,5 +53,37 @@ public class YcInit {
 
     public static Context getContext() {
         return mApplication;
+    }
+
+    public static boolean isIsDebug() {
+        return mIsDebug;
+    }
+
+    public static void setIsDebug(boolean mIsDebug) {
+        YcInit.mIsDebug = mIsDebug;
+    }
+
+    public static int getConnectTime() {
+        return mConnectTime;
+    }
+
+    public static int getReadTime() {
+        return mReadTime;
+    }
+
+    public static int getWriteTime() {
+        return mWriteTime;
+    }
+
+    public static void setConnectTime(int connectTime) {
+        YcInit.mConnectTime = connectTime;
+    }
+
+    public static void setReadTime(int readTime) {
+        YcInit.mReadTime = readTime;
+    }
+
+    public static void setWriteTime(int writeTime) {
+        YcInit.mWriteTime = writeTime;
     }
 }

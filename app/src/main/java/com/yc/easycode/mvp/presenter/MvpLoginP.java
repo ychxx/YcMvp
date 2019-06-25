@@ -36,4 +36,22 @@ public class MvpLoginP extends BasePresenter<MvpLoginC.V> implements MvpLoginC.P
                     }
                 });
     }
+    public void uploadImg(String userName, String userPassword) {
+        new MvpLoginM()
+                .login(userName, userPassword)
+                .compose(getIView().bindLifecycle())
+                .doOnSubscribe((disposable) -> getIView().showLoading("加载中..."))
+                .doFinally(() -> getIView().hideLoading())
+                .subscribe(new BaseObserver<List<LoginJson>>() {
+                    @Override
+                    public void onSuccess(List<LoginJson> json) {
+                        getIView().onLoginSuccess(json.get(0));
+                    }
+
+                    @Override
+                    public void onFail(ApiException msg) {
+                        getIView().onLoginFail(msg);
+                    }
+                });
+    }
 }
