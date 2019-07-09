@@ -59,7 +59,7 @@ public abstract class YcLazyFragment extends RxFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        View view = inflater.inflate(getLayoutResId(), container, false);
+        View view = inflater.inflate(getLayoutId(), container, false);
         mActivity = getSupportActivity();
         mUnbinder = ButterKnife.bind(this, view);
         return view;
@@ -75,7 +75,7 @@ public abstract class YcLazyFragment extends RxFragment {
     }
 
     @LayoutRes
-    public abstract int getLayoutResId();
+    public abstract int getLayoutId();
 
     /**
      * 初始化views(完成视图创建后，初始控件)

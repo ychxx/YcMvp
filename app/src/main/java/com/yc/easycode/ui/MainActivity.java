@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.yc.easycode.R;
 import com.yc.easycode.mvp.MvpLoginActivity;
 import com.yc.yclibrary.base.YcAppCompatActivity;
