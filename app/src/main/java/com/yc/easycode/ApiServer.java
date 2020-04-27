@@ -2,6 +2,7 @@ package com.yc.easycode;
 
 
 import com.yc.easycode.bean.json.LoginJson;
+import com.yc.easycode.bean.json.TestLogJson;
 import com.yc.yclibrary.YcInit;
 import com.yc.yclibrary.net.BaseObserver;
 
@@ -31,6 +32,7 @@ import retrofit2.http.Query;
  */
 
 public interface ApiServer {
+    @Headers({YcInit.OTHER_INTERCEPTOR + ":" + "Name=admin&Pwd=hckj1234&Imei=2333"})
     @GET(UrlHelper.BASE_API + "checklogin")
     Observable<List<LoginJson>> login(@Query("Name") String userName, @Query("Pwd") String passWord, @Query("Imei") String imei);
 
@@ -47,7 +49,7 @@ public interface ApiServer {
             "AttachStream-Data:{\"userId\":\"2050\"}"
     })
     @POST("app/android/UploadUserImage.invoke")
-    Observable<BaseObserver<Object>> uploadImg( @Part MultipartBody.Part img2);
+    Observable<BaseObserver<Object>> uploadImg(@Part MultipartBody.Part img2);
 
     @Multipart
     @Headers({YcInit.OTHER_BASE_URL + ":" + "http://10.1.3.189:8080/",
@@ -62,10 +64,16 @@ public interface ApiServer {
 //    @GET(UrlHelper.API_USER_TYPE + "GetMDJsonByUserAndSysId&SysId=23")
 //    Observable<UserTypeJson> getUserType(@Query("userName") String userName, @Query("userPsw") String passWord);
 
-//
+    //
 //    @Multipart
 //    @Headers(UrlHelper.OTHER_BASE_URL + ":" + UrlHelper.URL_UPLOAD_IMG)
 //    @POST(UrlHelper.API_UPLOAD_IMG)
 //    Observable<HttpResponse<Object>> uploadImg(@Part MultipartBody.Part img1, @Part MultipartBody.Part img2, @Part("light") RequestBody light, @Part("islamp") RequestBody isLamp, @Part("steelId") RequestBody steelId, @Part("Phone") RequestBody phoneInfo);
+    @Multipart
+    @Headers({YcInit.OTHER_BASE_URL + ":" + "http://114.116.125.60:6093/"})
+    @POST("api/v2/login?")
+    Observable<TestLogJson> testLog(@Part("sign") String sign, @Part("account") String account, @Part("app_key") String app_key, @Part("format") String format,
+                                    @Part("method") String method, @Part("password") String password, @Part("sign_method")
+                                                    String sign_method, @Part("timestamp") String timestamp, @Part("v") String v);
 
 }

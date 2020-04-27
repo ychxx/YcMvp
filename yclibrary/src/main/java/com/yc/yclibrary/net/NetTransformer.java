@@ -1,7 +1,10 @@
 package com.yc.yclibrary.net;
 
+import com.yc.yclibrary.YcInit;
+
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -12,7 +15,7 @@ public class NetTransformer {
     public static <T> ObservableTransformer<T, T> compose() {
         return observable ->
                 observable.subscribeOn(Schedulers.io())//io线程发起请求
-                        .observeOn(AndroidSchedulers.mainThread());//UI线程处理响应
+                        .observeOn(AndroidSchedulers.mainThread());
 //                        .map(tNetResponse -> {//检验返回的数据
 //                            ExceptionEngine.checkNetResponse(tNetResponse);
 //                            return tNetResponse.getData();

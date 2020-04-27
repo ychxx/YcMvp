@@ -9,6 +9,12 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.yc.yclibrary.net.RetrofitUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.functions.Function;
+import okhttp3.Interceptor;
+
 
 /**
  * 初始化
@@ -17,13 +23,15 @@ import com.yc.yclibrary.net.RetrofitUtils;
 public class YcInit {
     private static Application mApplication;
     private static final String TAG = "YcInit";
-
+    private static final List<Interceptor> mInterceptors = new ArrayList<>();
     public static final String OTHER_BASE_URL = "other_base_url";//用于切换url的标示
+    public static final String OTHER_INTERCEPTOR = "other_interceptor";//用于请求拦截和响应数据拦截的标示
     public static String mBaseUrl = "";
     private static boolean mIsDebug = false;//是否是调试模式
     private static int mConnectTime = 180;//连接超时时长x秒
     private static int mReadTime = 180;//读数据超时时长x秒
     private static int mWriteTime = 180;//写数据接超时时长x秒
+
 
     public static void init(Application application, String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {
@@ -85,5 +93,13 @@ public class YcInit {
 
     public static void setWriteTime(int writeTime) {
         YcInit.mWriteTime = writeTime;
+    }
+
+    public static void addInterceptors(Interceptor interceptor) {
+        mInterceptors.add(interceptor);
+    }
+
+    public static List<Interceptor> getInterceptors() {
+        return mInterceptors;
     }
 }

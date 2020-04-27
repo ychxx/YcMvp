@@ -3,8 +3,11 @@ package com.yc.yclibrary.net;
 
 import com.yc.yclibrary.YcInit;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -25,16 +28,18 @@ public enum RetrofitUtils {
     }
 
     private Retrofit createRetrofit() {
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(new LogInterceptor())//使用interceptors会导致header中的cookie等信息不会打印出来
 //                .addNetworkInterceptor(new LogInterceptor())//添加日志拦截器，打印日志
                 .connectTimeout(YcInit.getConnectTime(), TimeUnit.SECONDS)
                 .writeTimeout(YcInit.getWriteTime(), TimeUnit.SECONDS)
-                .readTimeout(YcInit.getReadTime(), TimeUnit.SECONDS)
-                .build();
+                .readTimeout(YcInit.getReadTime(), TimeUnit.SECONDS);
+        for (Interceptor interceptor : YcInit.getInterceptors()) {
+            clientBuilder.addInterceptor(interceptor);
+        }
         return new Retrofit.Builder()
                 .baseUrl(YcInit.mBaseUrl)
-                .client(client)
+                .client(clientBuilder.build())
                 //增加返回值为String的支持
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -52,6 +57,13 @@ public enum RetrofitUtils {
 
     public <T> T getApiService(final Class<T> service) {
         return getRetrofit().create(service);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getApiService2(final Class<T> service, InvocationHandler h) {
+        T t = getRetrofit().create(service);
+
+        return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[]{service}, h);
     }
 //    public Class<?> getApiService() {
 //        return getRetrofit().create(apiService);

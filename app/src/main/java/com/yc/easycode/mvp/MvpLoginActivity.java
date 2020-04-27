@@ -129,11 +129,12 @@ public class MvpLoginActivity extends YcMvpAppCompatActivity<MvpLoginP> implemen
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLoginFail:
-//                mPresenter.login("", "");
-                uploadImg();
+                mPresenter.login("", "");
+//                uploadImg();
                 break;
             case R.id.btnLoginSuccess:
                 mPresenter.login("admin", "hckj1234");
+//                mPresenter.test();
                 break;
         }
     }
