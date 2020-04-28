@@ -31,7 +31,15 @@ public class YcInit {
     private static int mConnectTime = 180;//连接超时时长x秒
     private static int mReadTime = 180;//读数据超时时长x秒
     private static int mWriteTime = 180;//写数据接超时时长x秒
+    private static boolean mIsShowNetLog = true;//是否是打印网络请求的log
 
+    public static void setIsShowNetLog(boolean isShowNetLog) {
+        YcInit.mIsShowNetLog = isShowNetLog;
+    }
+
+    public static boolean isShowNetLog() {
+        return mIsShowNetLog;
+    }
 
     public static void init(Application application, String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {

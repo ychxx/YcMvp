@@ -32,15 +32,18 @@ public class LogInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-
         Request request = chain.request();
         String realBaseUrl = getRealBaseUrl(request);
         if (!TextUtils.isEmpty(realBaseUrl)) {
             request = newRequest(request, realBaseUrl);
         }
-        Logger.e("请求方式:" + request.method() + "\n网络请求:" + getFullRequest(request));
+        if (YcInit.isShowNetLog()) {
+            Logger.e("请求方式:" + request.method() + "\n网络请求:" + getFullRequest(request));
+        }
         Response response = chain.proceed(request);
-        Logger.e("请求方式:" + request.method() + "\n网络请求:" + "返回数据:" + getFullResponse(response));
+        if (YcInit.isShowNetLog()) {
+            Logger.e("请求方式:" + request.method() + "\n网络请求:" + "返回数据:" + getFullResponse(response));
+        }
         return response;
     }
 
