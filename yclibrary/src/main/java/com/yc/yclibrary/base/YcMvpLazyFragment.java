@@ -1,5 +1,6 @@
 package com.yc.yclibrary.base;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -25,11 +26,11 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
     protected abstract P loadPresenter();
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onAttach(Activity activity) {
         mPresenter = loadPresenter();
         if (mPresenter != null)
             mPresenter.attachView(this);
-        super.onViewCreated(view, savedInstanceState);
+        super.onAttach(activity);
     }
 
     @Override
