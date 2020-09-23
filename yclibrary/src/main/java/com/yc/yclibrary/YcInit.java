@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.reactivex.functions.Function;
 import okhttp3.Interceptor;
+import retrofit2.Converter;
 
 
 /**
@@ -32,6 +33,7 @@ public class YcInit {
     private static int mReadTime = 180;//读数据超时时长x秒
     private static int mWriteTime = 180;//写数据接超时时长x秒
     private static boolean mIsShowNetLog = true;//是否是打印网络请求的log
+    private static Converter.Factory mGsonFactory;
 
     public static void setIsShowNetLog(boolean isShowNetLog) {
         YcInit.mIsShowNetLog = isShowNetLog;
@@ -109,5 +111,13 @@ public class YcInit {
 
     public static List<Interceptor> getInterceptors() {
         return mInterceptors;
+    }
+
+    public static Converter.Factory getGsonFactory() {
+        return mGsonFactory;
+    }
+
+    public static void setGsonFactory(Converter.Factory gsonFactory) {
+        mGsonFactory = gsonFactory;
     }
 }

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,13 +38,17 @@ public enum RetrofitUtils {
         for (Interceptor interceptor : YcInit.getInterceptors()) {
             clientBuilder.addInterceptor(interceptor);
         }
+        Converter.Factory getGsonFactory = YcInit.getGsonFactory();
+        if (getGsonFactory == null) {
+            getGsonFactory = GsonConverterFactory.create();
+        }
         return new Retrofit.Builder()
                 .baseUrl(YcInit.mBaseUrl)
                 .client(clientBuilder.build())
                 //增加返回值为String的支持
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(getGsonFactory)
                 .build();
 
     }

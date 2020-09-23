@@ -13,9 +13,11 @@ import java.util.Stack;
 
 public enum ActivityUtils {
     INSTANCE();
+
     ActivityUtils() {
         mActivityStack = new Stack<>();
     }
+
     private Stack<YcAppCompatActivity> mActivityStack;
 
     /**
@@ -27,11 +29,12 @@ public enum ActivityUtils {
         }
         mActivityStack.push(activity);
     }
+
     /**
      * 获取到当前显示Activity（堆栈中最后一个传入的activity）
      */
     public YcAppCompatActivity getCurrentActivity() {
-        if (mActivityStack != null)
+        if (mActivityStack != null && !mActivityStack.isEmpty())
             return mActivityStack.lastElement();
         else
             return null;
@@ -41,7 +44,7 @@ public enum ActivityUtils {
      * 从堆栈中移除指定的Activity
      */
     public void finishActivity(YcAppCompatActivity activity) {
-        if (activity != null) {
+        if (activity != null && !mActivityStack.isEmpty()) {
             mActivityStack.remove(activity);
             activity.finish();
         }
@@ -94,6 +97,7 @@ public enum ActivityUtils {
             mActivityStack.clear();
         }
     }
+
     /**
      * 回退到activityClass页面（无则最后一个）
      */
@@ -102,13 +106,15 @@ public enum ActivityUtils {
         for (int i = 1; i < activitySum; i++) {
             if (mActivityStack.get(activitySum - i).getClass().equals(activityClass)) {
                 return;
-            }else {
+            } else {
                 finishActivity(mActivityStack.get(activitySum - i));
             }
         }
     }
+
     /**
      * 退出应用程序
+     *
      * @param context
      */
     public void exitApp(Context context) {
