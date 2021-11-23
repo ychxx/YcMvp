@@ -12,13 +12,24 @@ import com.yc.yclibrary.bean.BindEvent;
 import com.yc.yclibrary.mvp.BasePresenter;
 import com.yc.yclibrary.mvp.IView;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 /**
  *
  */
 
 public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyFragment implements IView {
     protected P mPresenter;
-    private ProgressDialog mProgressDialog = null;
+    protected ProgressDialog mProgressDialog = null;
+    protected Disposable mDisposableLoad;
+    /**
+     * 加载框延迟显示时间
+     */
+    protected int mLoadDelayTime = 1500;
 
     /**
      * 加载Presenter
@@ -38,6 +49,9 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        if (mDisposableLoad != null) {
+            mDisposableLoad.dispose();
+        }
         super.onDetach();
     }
 
@@ -48,11 +62,19 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
     public void showLoading(String msg) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
             mProgressDialog.setCanceledOnTouchOutside(false);
         }
         if (!mProgressDialog.isShowing()) {
-            mProgressDialog.setMessage(msg);
-            mProgressDialog.show();
+            if (mDisposableLoad != null) {
+                mDisposableLoad.dispose();
+            }
+            mDisposableLoad = Observable.timer(mLoadDelayTime, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())//下游
+                    .subscribe(aLong -> {
+                        mProgressDialog.setMessage(msg);
+                        mProgressDialog.show();
+                    });
         }
     }
 
