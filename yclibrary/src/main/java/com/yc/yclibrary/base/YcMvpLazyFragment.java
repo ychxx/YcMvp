@@ -3,6 +3,7 @@ package com.yc.yclibrary.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -13,6 +14,7 @@ import com.yc.yclibrary.mvp.BasePresenter;
 import com.yc.yclibrary.mvp.IView;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,7 +27,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyFragment implements IView {
     protected P mPresenter;
     protected ProgressDialog mProgressDialog = null;
-    protected Disposable mDisposableLoad;
+    protected AtomicReference<Disposable> mDisposableLoad = new AtomicReference<>();
     /**
      * 加载框延迟显示时间
      */
@@ -49,8 +51,8 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-        if (mDisposableLoad != null) {
-            mDisposableLoad.dispose();
+        if (mDisposableLoad.get() != null) {
+            mDisposableLoad.get().dispose();
         }
         super.onDetach();
     }
@@ -66,15 +68,15 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
             mProgressDialog.setCanceledOnTouchOutside(false);
         }
         if (!mProgressDialog.isShowing()) {
-            if (mDisposableLoad != null) {
-                mDisposableLoad.dispose();
+            if (mDisposableLoad.get() != null) {
+                mDisposableLoad.get().dispose();
             }
-            mDisposableLoad = Observable.timer(mLoadDelayTime, TimeUnit.MILLISECONDS)
+            mDisposableLoad.set(Observable.timer(mLoadDelayTime, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())//下游
                     .subscribe(aLong -> {
                         mProgressDialog.setMessage(msg);
                         mProgressDialog.show();
-                    });
+                    }));
         }
     }
 
@@ -83,6 +85,9 @@ public abstract class YcMvpLazyFragment<P extends BasePresenter> extends YcLazyF
      */
     @Override
     public void hideLoading() {
+        if (mDisposableLoad.get() != null) {
+            mDisposableLoad.get().dispose();
+        }
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
